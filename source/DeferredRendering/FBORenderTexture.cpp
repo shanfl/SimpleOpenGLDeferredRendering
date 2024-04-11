@@ -19,7 +19,7 @@ FBORenderTexture::FBORenderTexture(int _dWidth, int _dHeight)
 
 	// Bind the FBO so that the next operations will be bound to it
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
-
+#if 0
 	// Bind the diffuse render target
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_diffuseRT);
 	glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA, m_width, m_height);
@@ -34,12 +34,13 @@ FBORenderTexture::FBORenderTexture(int _dWidth, int _dHeight)
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_normalsRT);
 	glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA16F_ARB, m_width, m_height);
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT2_EXT, GL_RENDERBUFFER_EXT, m_normalsRT);
-
+#endif
 	// Bind the depth buffer
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_depthBuffer);
 	glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, m_width, m_height);
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_depthBuffer);
 
+#if 1
 	// Generate and bind the OGL texture for diffuse
 	glGenTextures(1, &m_diffuseTexture);
 	glBindTexture(GL_TEXTURE_2D, m_diffuseTexture);
@@ -72,7 +73,7 @@ FBORenderTexture::FBORenderTexture(int _dWidth, int _dHeight)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	// Attach the texture to the FBO
 	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT2_EXT, GL_TEXTURE_2D, m_normalsTexture, 0);
-
+#endif
 	// Check if all worked fine and unbind the FBO
 	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
 	if( status != GL_FRAMEBUFFER_COMPLETE_EXT)
